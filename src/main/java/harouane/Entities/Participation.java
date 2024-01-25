@@ -1,6 +1,6 @@
 package harouane.Entities;
 
-import harouane.Entities.enums.StateParticipation;
+import harouane.enums.StateParticipation;
 
 import javax.persistence.*;
 

@@ -1,20 +1,23 @@
 package harouane.Entities;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
+@Entity
 public class Location {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue
     long id;
-
     @Column
     String name;
     @Column
     String citta;
 
+    public Location() {
+    }
+
+    @OneToMany(mappedBy = "location")
+    List<Event> listOfEvents;
     public Location(String name, String citta) {
         this.name = name;
         this.citta = citta;

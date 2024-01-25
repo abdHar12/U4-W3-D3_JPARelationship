@@ -1,6 +1,6 @@
 package harouane.Entities;
 
-import harouane.Entities.enums.Genre;
+import harouane.enums.Genre;
 
 import javax.persistence.*;
 import java.util.Date;

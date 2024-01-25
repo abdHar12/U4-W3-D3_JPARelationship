@@ -12,13 +12,15 @@ public class LocationDAO {
         this.em = em;
     }
 
-    public void saveNewPartecipation(Location location){
+    public void saveNewLocation(Location location){
         EntityTransaction transaction= em.getTransaction();
         transaction.begin();
         em.persist(location);
         transaction.commit();
         System.out.println("La location è stata salvata correttamente");
     }
+
+
 
     public Location getLocationById(long id){
         return em.find(Location.class, id);

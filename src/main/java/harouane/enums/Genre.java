@@ -1,4 +1,4 @@
-package harouane.Entities.enums;
+package harouane.enums;
 
 public enum Genre {
     M,

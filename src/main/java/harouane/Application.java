@@ -2,14 +2,16 @@ package harouane;
 
 import com.github.javafaker.Faker;
 import harouane.DAO.EventDAO;
+import harouane.DAO.LocationDAO;
 import harouane.DAO.PartecipationDAO;
 import harouane.DAO.PersonDAO;
 import harouane.Entities.Event;
+import harouane.Entities.Location;
 import harouane.Entities.Participation;
 import harouane.Entities.Person;
-import harouane.Entities.enums.EventType;
-import harouane.Entities.enums.Genre;
-import harouane.Entities.enums.StateParticipation;
+import harouane.enums.EventType;
+import harouane.enums.Genre;
+import harouane.enums.StateParticipation;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -42,38 +44,35 @@ public class Application {
         if(num.nextInt(1, 2)==1) return StateParticipation.CONFIRMED;
         return StateParticipation.NOT_CONFIRMED;
     };
-    static Supplier<Event> getNewEvent=()->{
-        return new Event(faker.book().title(), LocalDate.of(new Random().nextInt(2020, 2030), new Random().nextInt(1,12), new Random().nextInt(1,30)), faker.howIMetYourMother().catchPhrase(), getRandomEventType.get(), getRandomNumberPartecipant.get());
-    };
+
     static Supplier<Person> randomPerson=()->{
         return new Person(faker.name().firstName(), faker.name().lastName(), faker.internet().emailAddress(),faker.date().birthday(18,50), getRandomGenre.get());
     };
     public static void main(String[] args) {
         EntityManager em= emf.createEntityManager();
-        EventDAO eventDAO= new EventDAO(em);
-        /*Event event= getNewEvent.get();
-        System.out.println(event);
-        eventDAO.saveNewEvent(event);
-        Event evToFind = eventDAO.getEventById(5);
+
+        /*Event evToFind = eventDAO.getEventById(5);
         if (evToFind == null) System.out.println("Elemento non trovato!");
-        else System.out.println("Elemento trovato: " + evToFind);
+        else System.out.println("Elemento trovato: " + evToFind);*/
 
-        eventDAO.deleteById(5);*/
 
-        Event evToFind = eventDAO.getEventById(7);
         PersonDAO personDAO =new PersonDAO(em);
         PartecipationDAO partecipationDAO=new PartecipationDAO(em);
         Person person=randomPerson.get();
         Person personToFind=personDAO.getPersonById(23);
+        Location location= new Location(faker.beer().name(), faker.address().country());
+        LocationDAO locationDAO= new LocationDAO(em);
+        locationDAO.saveNewLocation(location);
+        EventDAO eventDAO= new EventDAO(em);
+        Event event= new Event(faker.book().title(), LocalDate.of(new Random().nextInt(2020, 2030), new Random().nextInt(1,12), new Random().nextInt(1,30)), faker.howIMetYourMother().catchPhrase(), getRandomEventType.get(), getRandomNumberPartecipant.get(), location);
+        System.out.println(event);
+        eventDAO.saveNewEvent(event);
+        Event evToFind=eventDAO.getEventById(40);
         Participation participation=new Participation(personToFind, evToFind, getRandomPartecipationState.get());
         partecipationDAO.saveNewPartecipation(participation);
-        personDAO.saveNewPerson(person);
-        personToFind.getParticipations().forEach(part->{
-            System.out.println(part);
-        });
-        evToFind.getParticipationsList().forEach(part->{
-            System.out.println(part);
-        });
+
+
+        //personDAO.saveNewPerson(person);
         em.close();
         emf.close();
     }
