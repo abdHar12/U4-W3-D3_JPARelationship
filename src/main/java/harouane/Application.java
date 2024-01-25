@@ -2,12 +2,8 @@ package harouane;
 
 import com.github.javafaker.Faker;
 import harouane.DAO.EventDAO;
-import harouane.DAO.LocationDAO;
-import harouane.DAO.PartecipationDAO;
 import harouane.DAO.PersonDAO;
 import harouane.Entities.Event;
-import harouane.Entities.Location;
-import harouane.Entities.Participation;
 import harouane.Entities.Person;
 import harouane.enums.EventType;
 import harouane.enums.Genre;
@@ -16,7 +12,8 @@ import harouane.enums.StateParticipation;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.function.Supplier;
 
@@ -56,7 +53,7 @@ public class Application {
         else System.out.println("Elemento trovato: " + evToFind);*/
 
 
-        PersonDAO personDAO =new PersonDAO(em);
+/*        PersonDAO personDAO =new PersonDAO(em);
         PartecipationDAO partecipationDAO=new PartecipationDAO(em);
         Person person=randomPerson.get();
         Person personToFind=personDAO.getPersonById(23);
@@ -69,9 +66,15 @@ public class Application {
         eventDAO.saveNewEvent(event);
         Event evToFind=eventDAO.getEventById(40);
         Participation participation=new Participation(personToFind, evToFind, getRandomPartecipationState.get());
-        partecipationDAO.saveNewPartecipation(participation);
+        partecipationDAO.saveNewPartecipation(participation);*/
 
-
+        EventDAO eventDAO= new EventDAO(em);
+        Event evToFind1=eventDAO.getEventById(40);
+        Event evToFind2=eventDAO.getEventById(41);
+        Event evToFind3=eventDAO.getEventById(43);
+        PersonDAO personDAO =new PersonDAO(em);
+        Person personToFind=personDAO.getPersonById(23);
+        personToFind.setEvents(new HashSet<>(Arrays.asList(evToFind1, evToFind2, evToFind3)));
         //personDAO.saveNewPerson(person);
         em.close();
         emf.close();

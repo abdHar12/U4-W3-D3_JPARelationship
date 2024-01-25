@@ -22,6 +22,7 @@ private final EntityManager em;
     public Event getEventById(long id){
         return em.find(Event.class, id);
     }
+
     public void deleteById(long id){
         EntityTransaction transaction=em.getTransaction();
         Event found=getEventById(id);

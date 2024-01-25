@@ -5,6 +5,7 @@ import harouane.enums.Genre;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "persons")
@@ -31,6 +32,11 @@ public class Person {
     @OneToMany(mappedBy = "person")
     List<Participation> participations;
 
+    @ManyToMany
+    @JoinTable(name = "events_persons",
+    joinColumns = @JoinColumn(name = "person_id"),
+    inverseJoinColumns = @JoinColumn(name = "event_id"))
+    Set<Event> events;
     public Person() {
     }
 
@@ -64,6 +70,34 @@ public class Person {
 
     public List<Participation> getParticipations() {
         return participations;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setDateOfBirthday(Date dateOfBirthday) {
+        this.dateOfBirthday = dateOfBirthday;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    public void setParticipations(List<Participation> participations) {
+        this.participations = participations;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 
     @Override
